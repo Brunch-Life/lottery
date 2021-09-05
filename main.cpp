@@ -1,21 +1,25 @@
+
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
 using namespace std;
-int check(int red[6], int blue, int red_ans[6], int blue_ans);
+int check(int red[6], int blue, int red_ans[6], int blue_ans,int* doflag);
 int cmpfunc(const void* a, const void* b)
 {
     return (*(int*)a - *(int*)b);
 }
 int main()
 {
+    int looptime,doflag=0;
+    printf("How many times do you want to loop?\n");
+    scanf("%d", &looptime);
     freopen("out.txt", "w", stdout);
     srand((int)time(0));
     int red[6], blue;
     int red_ans[6] , blue_ans;
     int time=0,money=0;
-    for (time;time < 10000000;time++)
+    for (time;time < looptime;time++)
     {
         for (int i = 0; i < 6; i++)
         {
@@ -41,6 +45,7 @@ int main()
                     }
                 }
 
+
         for (int i = 0; i < 6; i++)
         {
             printf("%d %d %d\n", i + 1, red[i], red_ans[i]);
@@ -48,9 +53,13 @@ int main()
         blue = rand() % 16 + 1;
         blue_ans = rand() % 16 + 1;
         printf("7 %d %d\n", blue, blue_ans);
-        int get = check(red, blue, red_ans, blue_ans);
+        int get = check(red, blue, red_ans, blue_ans,&doflag);
         money+=(get-2);
         printf("%d %d\n",get, money);
+        if (doflag == 1)
+        {
+            break;
+        }
 
     }
     cout << "money "<<money<<" time "<<time;
@@ -58,7 +67,7 @@ int main()
     return 0;
 }
 
-int check(int red[6], int blue, int red_ans[6], int blue_ans)
+int check(int red[6], int blue, int red_ans[6], int blue_ans,int* doflag)
 {
     int redget=0;
     int blueget=0;
@@ -79,11 +88,13 @@ int check(int red[6], int blue, int red_ans[6], int blue_ans)
     if (redget == 6 && blueget == 1)
     {
         printf("HAHA");
+        *doflag = 1;
         return 5000000;
     }
     else if (redget == 6 && blueget == 0)
     {
         printf("haha");
+        *doflag = 1;
         return 50000;
     }
     else if (redget == 5 && blueget == 1)
@@ -107,3 +118,4 @@ int check(int red[6], int blue, int red_ans[6], int blue_ans)
     }
 
 }
+
